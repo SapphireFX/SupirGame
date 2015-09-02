@@ -66,6 +66,7 @@ public class StartMenu implements Screen
 
         table.add(playBtn);
         table.add().row();
+        table.add().row();
         table.add(exitBtn);
 
         stage.addActor(table);

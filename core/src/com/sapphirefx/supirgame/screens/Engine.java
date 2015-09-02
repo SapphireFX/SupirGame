@@ -2,6 +2,8 @@ package com.sapphirefx.supirgame.screens;
 
 import com.badlogic.gdx.Screen;
 import com.sapphirefx.supirgame.SupirGame;
+import com.sapphirefx.supirgame.engine.EngineRenderer;
+import com.sapphirefx.supirgame.levels.ManagerLVL;
 
 /**
  * Created by sapphire on 02.09.15.
@@ -9,6 +11,10 @@ import com.sapphirefx.supirgame.SupirGame;
 public class Engine implements Screen
 {
     private SupirGame screenManager;
+
+    private EngineRenderer renderer;
+
+    private ManagerLVL managerLVL;
 
     public Engine(SupirGame supirGame)
     {
@@ -56,4 +62,15 @@ public class Engine implements Screen
     {
 
     }
+
+    public EngineRenderer getRenderer()
+    {
+        return renderer;
+    }
+
+    public ManagerLVL getManagerLVL()
+    {
+        return managerLVL;
+    }
+
 }
