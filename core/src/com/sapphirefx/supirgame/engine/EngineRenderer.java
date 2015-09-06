@@ -43,7 +43,6 @@ public class EngineRenderer
     {
         this.engine = engine;
         mapRenderer = new OrthogonalTiledMapRenderer(null);
-        mapRenderer.setMap(engine.getManagerObjects().getManagerLevel().getCurrentLvl().getMap());
         batch = (SpriteBatch)mapRenderer.getBatch();
         cam = new OrthographicCamera(Constants.gameWidth, Constants.gameHeight);
         cam.update();
@@ -59,37 +58,8 @@ public class EngineRenderer
 
     public void render()
     {
-        cam.position.set(engine.getPlayer().getPosition().x*Constants.METERS_TO_PIXELS,
-                engine.getPlayer().getPosition().y*Constants.METERS_TO_PIXELS, 0);
-        cam.update();
-        camForLight.position.set(engine.getPlayer().getPosition().x-0.5f, engine.getPlayer().getPosition().y-0.5f, 0);
-        camForLight.update();
-        mapRenderer.setView(cam);
-
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setShader(null); // убираем шейдер
-        batch.begin();
-        mapRenderer.renderTileLayer((TiledMapTileLayer)engine.getMap().getLayers().get("background"));
-
-        engine.getManagerObjects().draw(batch);
-        engine.getPlayer().draw(batch);
-        for(int i = effects.size(); i > 0; i--)
-        {
-            effects.get(i-1).update(Gdx.graphics.getDeltaTime());
-            effects.get(i-1).draw(batch);
-            if (effects.get(i-1).isComplete()) effects.remove(i-1);
-        }
-        batch.end();
-        rayHandler.setCombinedMatrix(camForLight.combined);
-        rayHandler.updateAndRender();
-        batch.begin();
-        engine.getManagerObjects().drawText(managerText);
-        batch.end();
-        debugRenderer.render(engine.getWorld(), camForLight.combined);
-        engine.getInputInterface().draw();
-        batch.setProjectionMatrix(cam.projection);
-
     }
 
 }
