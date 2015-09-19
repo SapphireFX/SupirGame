@@ -13,7 +13,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.sapphirefx.supirgame.levels.Overlap2Dlvl;
 import com.sapphirefx.supirgame.screens.Engine;
 import com.sapphirefx.supirgame.tools.Constants;
 
@@ -33,11 +36,15 @@ public class EngineRenderer
     private OrthogonalTiledMapRenderer mapRenderer; // отрисовщик для карты
     private ShapeRenderer shapeRenderer;  // отрисовщик геометрических фигур
     private Box2DDebugRenderer debugRenderer;
-    private Array<Body> bodies;
     private ArrayList<ParticleEffect> effects;
     private ParticleEffect linkOnEffect;
     private RayHandler rayHandler;
     private RayCastCallback callBackRay;
+
+
+
+    private Overlap2Dlvl overlap2Dlvl;
+    private Stage stage;
 
     public EngineRenderer(Engine engine)
     {
@@ -51,15 +58,27 @@ public class EngineRenderer
 
         effects = new ArrayList<ParticleEffect>();
 
-        bodies = new Array<Body>();
-
         shapeRenderer = new ShapeRenderer();
+
+        overlap2Dlvl = new Overlap2Dlvl();
     }
 
     public void render()
     {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //engine.getInputInterface().draw();
+        overlap2Dlvl.getOverlapEngine().update(Gdx.graphics.getDeltaTime());
     }
 
+    public OrthographicCamera getCam()
+    {
+        return cam;
+    }
+
+    public SpriteBatch getBatch()
+    {
+        return batch;
+    }
 }

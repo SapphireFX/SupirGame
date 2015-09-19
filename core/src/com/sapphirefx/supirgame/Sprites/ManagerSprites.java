@@ -16,10 +16,11 @@ import com.sapphirefx.supirgame.tools.Constants;
  */
 public class ManagerSprites
 {
-        public float scaleRatioX;
-    public float scaleRatioY;
-    private float animationElapsed; // тайминг для спрайтов с анимацией
 
+    public float scaleRatioX;
+    public float scaleRatioY;
+
+    private float animationElapsed; // тайминг для спрайтов с анимацией
     private Texture textureBulleteGranade;
     private Sprite bulleteGaranade;
 
@@ -46,8 +47,8 @@ public class ManagerSprites
     public ManagerSprites ()
     {
         scaleRatioX = (float) Constants.gameWidth / (float)Gdx.graphics.getWidth();
-        scaleRatioY = (float)Constants.gameHeight / (float)Gdx.graphics.getHeight();
-
+        scaleRatioY = (float) Constants.gameHeight / (float)Gdx.graphics.getHeight();
+/*
         textureBulleteGranade = new Texture("img/granade.png");
         bulleteGaranade = new Sprite(textureBulleteGranade, 0,0,32,32);
         bulleteGaranade.setOriginCenter();
@@ -150,7 +151,8 @@ public class ManagerSprites
                     break;
             }
         }
-        */
+*/
+
     }
 
     /**

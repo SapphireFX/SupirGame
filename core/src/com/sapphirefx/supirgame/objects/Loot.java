@@ -1,30 +1,28 @@
 package com.sapphirefx.supirgame.objects;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.sapphirefx.supirgame.Sprites.ManagerSprites;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.sapphirefx.supirgame.ashley.components.LootComponent;
+import com.sapphirefx.supirgame.ashley.components.TextureComponent;
+import com.sapphirefx.supirgame.ashley.components.TransformComponent;
 
 /**
  * Created by sapphire on 06.09.15.
  */
-public class Loot extends GameObject
+public class Loot
 {
-
-    public Loot(int type, Vector2 position)
+    public Loot(PooledEngine ashleyEngine)
     {
-        this.type = type;
-        this.position = position;
-    }
+        Entity entity = ashleyEngine.createEntity();
 
-    @Override
-    public void createBody()
-    {
+        LootComponent lootComponent = ashleyEngine.createComponent(LootComponent.class);
+        TextureComponent textureComponent = ashleyEngine.createComponent(TextureComponent.class);
+        TransformComponent transformComponent = ashleyEngine.createComponent(TransformComponent.class);
 
-    }
+        entity.add(lootComponent);
+        entity.add(textureComponent);
+        entity.add(transformComponent);
 
-    @Override
-    public void draw(ManagerSprites managerSprite, Batch batch)
-    {
-
+        ashleyEngine.addEntity(entity);
     }
 }

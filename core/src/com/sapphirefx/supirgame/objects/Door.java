@@ -1,35 +1,29 @@
 package com.sapphirefx.supirgame.objects;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.sapphirefx.supirgame.Sprites.ManagerSprites;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.sapphirefx.supirgame.ashley.components.DoorComponent;
+import com.sapphirefx.supirgame.ashley.components.TextureComponent;
+import com.sapphirefx.supirgame.ashley.components.TransformComponent;
 
 /**
  * Created by sapphire on 05.09.15.
  */
-public class Door extends GameObject
+public class Door
 {
-
-    public  int respawn; // точка относительно которой ставить героя
-    public  String description; // название телепорта
-    public  String destination; // куда переносить игрока
-
-    public Door(int type , Vector2 position, String description, String destination, int respawn)
+    public Door(PooledEngine ashleyEngine)
     {
-        this.type = type;
-        this.position = position;
-        this.description = description;
-        this.destination = destination;
-        this.respawn = respawn;
+        Entity entity = ashleyEngine.createEntity();
+
+        DoorComponent doorComponent = ashleyEngine.createComponent(DoorComponent.class);
+        TextureComponent textureComponent = ashleyEngine.createComponent(TextureComponent.class);
+        TransformComponent transformComponent = ashleyEngine.createComponent(TransformComponent.class);
+
+        entity.add(doorComponent);
+        entity.add(textureComponent);
+        entity.add(transformComponent);
+
+        ashleyEngine.addEntity(entity);
     }
 
-    @Override
-    public void createBody()
-    {
-    }
-
-    @Override
-    public void draw(ManagerSprites managerSprite, Batch batch)
-    {
-    }
 }
