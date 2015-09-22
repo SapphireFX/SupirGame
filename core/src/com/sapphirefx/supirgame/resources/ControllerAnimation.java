@@ -1,7 +1,7 @@
-package com.sapphirefx.supirgame.Sprites;
+package com.sapphirefx.supirgame.resources;
 
 /**
- * Created by sapphire on 08.05.15.
+ * Created by sapphire on 19.09.15.
  */
 public class ControllerAnimation
 {

@@ -3,7 +3,7 @@ package com.sapphirefx.supirgame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.sapphirefx.supirgame.screens.Engine;
+import com.sapphirefx.supirgame.screens.GameScreen;
 import com.sapphirefx.supirgame.screens.StartMenu;
 
 public class SupirGame extends Game
@@ -15,7 +15,7 @@ public class SupirGame extends Game
 	public void create ()
 	{
 		startMenu = new StartMenu(this);
-		engine = new Engine(this);
+		engine = new GameScreen(this);
 		setScreen(startMenu);
 	}
 

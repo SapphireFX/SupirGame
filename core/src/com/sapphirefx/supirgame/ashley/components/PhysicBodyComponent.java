@@ -9,4 +9,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class PhysicBodyComponent implements Component
 {
     public Body body;
+
+    public PhysicBodyComponent(Body body)
+    {
+        this.body = body;
+    }
 }

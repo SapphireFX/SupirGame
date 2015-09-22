@@ -76,6 +76,4 @@ public class Constants
         // параметры моделей для объектов
     public final static float OBJECT_BAT_WIDTH = 15;
     public final static float OBJECT_BAT_HEIGHT = 15;
-
-
 }
