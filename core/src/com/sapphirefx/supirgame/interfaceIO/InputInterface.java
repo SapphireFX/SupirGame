@@ -193,6 +193,7 @@ public class InputInterface
 
     public void draw()
     {
+        stage.setViewport(gameScreen.getView());
         stage.draw();
     }
 

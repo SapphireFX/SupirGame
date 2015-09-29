@@ -11,5 +11,4 @@ public class PlayerComponent implements Component
     public int life;
     public boolean canJump;
     public boolean viewOnLeft;
-    private Fixture fixtureJump;
 }

@@ -1,10 +1,16 @@
 package com.sapphirefx.supirgame.levels;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.sapphirefx.supirgame.ashley.systems.AnimationSystem;
+import com.sapphirefx.supirgame.ashley.systems.LayerSystem;
+import com.sapphirefx.supirgame.ashley.systems.LightSystem;
+import com.sapphirefx.supirgame.ashley.systems.ParticleSystem;
 import com.sapphirefx.supirgame.ashley.systems.RenderingSystem;
+import com.sapphirefx.supirgame.interfaceIO.InputInterface;
 import com.sapphirefx.supirgame.resources.ResourceManager;
 
 /**
@@ -12,32 +18,22 @@ import com.sapphirefx.supirgame.resources.ResourceManager;
  */
 public class Overlap2Dlvl
 {
-    private Engine ashleyEngine;
     private ResourceManager rm;
     private SceneLoader sl;
 
     public Overlap2Dlvl()
     {
-        ashleyEngine = new Engine();
         rm = new ResourceManager();
         rm.initAllResources();
-        sl = new SceneLoader(rm, ashleyEngine);
+        sl = new SceneLoader(rm);
         sl.loadScene("MainScene");
-        addSystems();
+
     }
 
-    private void addSystems()
-    {
-		AnimationSystem animationSystem = new AnimationSystem();
-        RenderingSystem renderer = new RenderingSystem(new PolygonSpriteBatch(2000, createDefaultShader()));
-
-        ashleyEngine.addSystem(animationSystem);
-        ashleyEngine.addSystem(renderer);
-	}
 
     public void update(float delta)
     {
-        ashleyEngine.update(delta);
+        sl.engine.update(delta);
     }
 
     /** Returns a new instance of the default shader used by SpriteBatch for GL2 when no shader is specified. */
@@ -89,6 +85,16 @@ public class Overlap2Dlvl
 
     public Engine getAshleyEngine()
     {
-        return ashleyEngine;
+        return sl.engine;
+    }
+
+    public OrthographicCamera getCam()
+    {
+        return sl.engine.getSystem(RenderingSystem.class).getCam();
+    }
+
+    public Batch getBatch()
+    {
+        return sl.engine.getSystem(RenderingSystem.class).getBatch();
     }
 }

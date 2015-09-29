@@ -9,16 +9,51 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class TransformComponent implements Component
 {
-    public Vector3 pos;
-	public Vector2 scale;
-	public Vector2 origin;
+	public float x;
+	public float y;
+	public float scaleX	=	1f;
+	public float scaleY	=	1f;
+	public float originX;
+	public float originY;
 	public float rotation;
 
-	public TransformComponent()
+	TransformComponent backup = null;
+
+    public TransformComponent()
+    {
+    }
+
+	public TransformComponent(TransformComponent component)
 	{
-		pos = new Vector3();
-		scale = new Vector2(1.0f, 1.0f);
-		origin = new Vector2();
-		rotation = 0.0f;
+		x = component.x;
+		y = component.y;
+		scaleX = component.scaleX;
+		scaleY = component.scaleY;
+		rotation = component.rotation;
+		originX = component.originX;
+		originY = component.originY;
+	}
+
+	public void disableTransform()
+	{
+		backup = new TransformComponent(this);
+		x = 0;
+		y = 0;
+		scaleX = 1f;
+		scaleY = 1f;
+		rotation = 0;
+	}
+
+	public void enableTransform()
+	{
+		if(backup == null) return;
+		x = backup.x;
+		y = backup.y;
+		scaleX = backup.scaleX;
+		scaleY = backup.scaleY;
+		rotation = backup.rotation;
+		originX = backup.originX;
+		originY = backup.originY;
+		backup = null;
 	}
 }

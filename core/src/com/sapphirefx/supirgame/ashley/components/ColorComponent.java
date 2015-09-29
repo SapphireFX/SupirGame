@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 /**
  * Created by sapphire on 21.09.15.
  */
-public class TintComponent implements Component
+public class ColorComponent implements Component
 {
     public Color color = new Color();
 }

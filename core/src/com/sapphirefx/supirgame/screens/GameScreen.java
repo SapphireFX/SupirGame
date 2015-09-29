@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sapphirefx.supirgame.levels.Overlap2Dlvl;
 import com.sapphirefx.supirgame.resources.ManagerSprites;
 import com.sapphirefx.supirgame.SupirGame;
@@ -38,7 +39,7 @@ public class GameScreen implements Screen
         world = new World(new Vector2(0f, -10f), true);
         overlap2Dlvl = new Overlap2Dlvl();
         managerSprites = new ManagerSprites();
-        //inputInterface = new InputInterface(this);
+        inputInterface = new InputInterface(this);
         //Gdx.input.setInputProcessor(inputInterface.getInput());
     }
 
@@ -47,6 +48,7 @@ public class GameScreen implements Screen
     {
         world.step(Constants.TIMESTEP, Constants.VELOCITYITERATIONS, Constants.POSITIONITERATIONS);
         overlap2Dlvl.update(delta);
+        inputInterface.draw();
     }
 
     @Override
@@ -91,11 +93,16 @@ public class GameScreen implements Screen
 
     public OrthographicCamera getCam()
     {
-        return overlap2Dlvl.getAshleyEngine().getSystem(RenderingSystem.class).getCam();
+        return overlap2Dlvl.getCam();
     }
 
     public Batch getBatch()
     {
-        return overlap2Dlvl.getAshleyEngine().getSystem(RenderingSystem.class).getBatch();
+        return overlap2Dlvl.getBatch();
+    }
+
+    public Viewport getView()
+    {
+        return overlap2Dlvl.getAshleyEngine().getSystem(RenderingSystem.class).getView();
     }
 }

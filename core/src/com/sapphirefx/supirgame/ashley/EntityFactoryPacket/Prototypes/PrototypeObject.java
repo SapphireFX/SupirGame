@@ -3,8 +3,9 @@ package com.sapphirefx.supirgame.ashley.EntityFactoryPacket.Prototypes;
 import com.badlogic.ashley.core.Entity;
 import com.sapphirefx.supirgame.ashley.components.MainItemComponent;
 import com.sapphirefx.supirgame.ashley.components.PhysicBodyComponent;
+import com.sapphirefx.supirgame.ashley.components.PolygonComponent;
 import com.sapphirefx.supirgame.ashley.components.ShaderComponent;
-import com.sapphirefx.supirgame.ashley.components.TintComponent;
+import com.sapphirefx.supirgame.ashley.components.ColorComponent;
 import com.sapphirefx.supirgame.ashley.components.TransformComponent;
 import com.sapphirefx.supirgame.ashley.components.ZIndexComponent;
 
@@ -31,9 +32,11 @@ public class PrototypeObject
 	public String layerName = "";
 	public float[] tint = {1, 1, 1, 1};
 
+    public ShapeObject shape = null;
+
 	public String shaderName = "";
 
-    public PrototypePhysics prototypePhysics = null;
+    public PrototypePhysics physics = null;
 
 
     public PrototypeObject()
@@ -59,7 +62,8 @@ public class PrototypeObject
         if(obj.tint != null) tint = Arrays.copyOf(obj.tint, obj.tint.length);
         shaderName = new String(obj.shaderName);
 
-        if(prototypePhysics != null) prototypePhysics = new PrototypePhysics(obj.prototypePhysics);
+        if(physics != null) physics = new PrototypePhysics(obj.physics);
+        if(obj.shape != null) shape = obj.shape.clone();
     }
 
     public void loadFromEntity(Entity entity)
@@ -73,20 +77,20 @@ public class PrototypeObject
         customVars = mainItemComponent.customVars;
 
         TransformComponent transformComponent = entity.getComponent(TransformComponent.class);
-        x = transformComponent.pos.x;
-        y = transformComponent.pos.y;
-        scaleX = transformComponent.scale.x;
-        scaleY = transformComponent.scale.y;
-        originX = transformComponent.origin.x;
-        originY = transformComponent.origin.y;
+        x = transformComponent.x;
+        y = transformComponent.y;
+        scaleX = transformComponent.scaleX;
+        scaleY = transformComponent.scaleY;
+        originX = transformComponent.originX;
+        originY = transformComponent.originY;
         rotation = transformComponent.rotation;
 
-        TintComponent tintComponent = entity.getComponent(TintComponent.class);
+        ColorComponent colorComponent = entity.getComponent(ColorComponent.class);
         tint = new float[4];
-		tint[0] = tintComponent.color.r;
-		tint[1] = tintComponent.color.g;
-		tint[2] = tintComponent.color.b;
-		tint[3] = tintComponent.color.a;
+		tint[0] = colorComponent.color.r;
+		tint[1] = colorComponent.color.g;
+		tint[2] = colorComponent.color.b;
+		tint[3] = colorComponent.color.a;
 
         ZIndexComponent ZIndexComponent = entity.getComponent(ZIndexComponent.class);
         zIndex = ZIndexComponent.getZIndex();
@@ -95,8 +99,8 @@ public class PrototypeObject
         PhysicBodyComponent physicBodyComponent = entity.getComponent(PhysicBodyComponent.class);
         if(physicBodyComponent != null)
         {
-            prototypePhysics = new PrototypePhysics();
-            prototypePhysics.loadFromComponent(physicBodyComponent);
+            physics = new PrototypePhysics();
+            physics.loadFromComponent(physicBodyComponent);
         }
 
         ShaderComponent shaderComponent = entity.getComponent(ShaderComponent.class);
@@ -104,6 +108,13 @@ public class PrototypeObject
         {
             shaderName = shaderComponent.shaderName;
         }
+
+        PolygonComponent polygonComponent = entity.getComponent(PolygonComponent.class);
+		if(polygonComponent != null && polygonComponent.vertices != null)
+        {
+			shape = new ShapeObject();
+			shape.polygons = polygonComponent.vertices;
+		}
     }
 
 }

@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -19,10 +20,17 @@ import com.sapphirefx.supirgame.ashley.EntityFactoryPacket.Prototypes.CompositeC
 import com.sapphirefx.supirgame.ashley.EntityFactoryPacket.Prototypes.PrototypeCompositeObject;
 import com.sapphirefx.supirgame.ashley.EntityFactoryPacket.Prototypes.SceneObject;
 import com.sapphirefx.supirgame.ashley.components.MainItemComponent;
+import com.sapphirefx.supirgame.ashley.systems.AnimationSystem;
+import com.sapphirefx.supirgame.ashley.systems.LayerSystem;
+import com.sapphirefx.supirgame.ashley.systems.LightSystem;
+import com.sapphirefx.supirgame.ashley.systems.ParticleSystem;
+import com.sapphirefx.supirgame.ashley.systems.PhysicsSystem;
 import com.sapphirefx.supirgame.ashley.systems.RenderingSystem;
+import com.sapphirefx.supirgame.ashley.systems.ResizeCompositeSystem;
 import com.sapphirefx.supirgame.resources.IResourceRetriever;
 import com.sapphirefx.supirgame.resources.ResourceManager;
 import com.sapphirefx.supirgame.tools.ComponentRetriever;
+import com.sapphirefx.supirgame.tools.PhysicBodyLoader;
 import com.sapphirefx.supirgame.tools.ProjectInfo;
 import com.sapphirefx.supirgame.tools.ResolutionEntryVO;
 
@@ -60,9 +68,9 @@ public class SceneLoader
 		initSceneLoader();
     }
 
-    public SceneLoader(IResourceRetriever rm, Engine engine)
+    public SceneLoader(IResourceRetriever rm)
     {
-        this.engine = engine;
+        this.engine = new Engine();
 		this.rm = rm;
 		initSceneLoader();
     }
@@ -104,7 +112,7 @@ public class SceneLoader
 	{
 
 		pixelsPerWU = rm.getProjectVO().pixelToWorld;
-
+        PhysicBodyLoader.getInstance().setScaleFromPPWU(pixelsPerWU);
 		engine.removeAllEntities();
 
 		sceneVO = rm.getSceneVO(sceneName);
@@ -140,31 +148,22 @@ public class SceneLoader
 
 	private void addSystems()
 	{
-        //PhysicsBodyLoader.getInstance().setScaleFromPPWU(pixelsPerWU);
+		AnimationSystem animationSystem = new AnimationSystem();
+        RenderingSystem renderer = new RenderingSystem(new PolygonSpriteBatch(2000, createDefaultShader()));
+        LayerSystem layerSystem = new LayerSystem();
+        ParticleSystem particleSystem = new ParticleSystem();
+        LightSystem lightSystem = new LightSystem();
+        ResizeCompositeSystem resizeCompositeSystem = new ResizeCompositeSystem();
+        PhysicsSystem physicsSystem = new PhysicsSystem(world);
+        renderer.setWorld(world);
 
-		//ParticleSystem particleSystem = new ParticleSystem();
-		//LightSystem lightSystem = new LightSystem();
-		//SpriteAnimationSystem animationSystem = new SpriteAnimationSystem();
-		//LayerSystem layerSystem = new LayerSystem();
-		//PhysicsSystem physicsSystem = new PhysicsSystem(world);
-		//CompositeSystem compositeSystem = new CompositeSystem();
-		//LabelSystem labelSystem = new LabelSystem();
-        //ScriptSystem scriptSystem = new ScriptSystem();
-		//renderer = new Overlap2dRenderer(new PolygonSpriteBatch(2000, createDefaultShader()));
-		//renderer.setRayHandler(rayHandler);
-		//renderer.setBox2dWorld(world);
-
-		//engine.addSystem(animationSystem);
-		//engine.addSystem(particleSystem);
-		//engine.addSystem(lightSystem);
-		//engine.addSystem(layerSystem);
-		//engine.addSystem(physicsSystem);
-		//engine.addSystem(compositeSystem);
-		//engine.addSystem(labelSystem);
-		//engine.addSystem(renderer);
-
-        // additional
-        //engine.addSystem(new ButtonSystem());
+        engine.addSystem(layerSystem);
+		engine.addSystem(animationSystem);
+		engine.addSystem(particleSystem);
+		engine.addSystem(lightSystem);
+        engine.addSystem(resizeCompositeSystem);
+        engine.addSystem(physicsSystem);
+		engine.addSystem(renderer);
 	}
 
 	public Entity loadFromLibrary(String libraryName)
@@ -177,14 +176,13 @@ public class SceneLoader
 			Entity entity = entityFactory.createEntity(null, compositeItemVO);
 			return entity;
 		}
-
 		return null;
 	}
 
     public PrototypeCompositeObject loadVoFromLibrary(String libraryName)
 	{
         ProjectInfo projectInfoVO = getRm().getProjectVO();
-        PrototypeCompositeObject compositeItemVO = projectInfoVO.libraryItems.get(libraryName);
+		PrototypeCompositeObject compositeItemVO = projectInfoVO.libraryItems.get(libraryName);
 
        return compositeItemVO;
     }

@@ -2,13 +2,11 @@ package com.sapphirefx.supirgame.ashley.EntityFactoryPacket;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sapphirefx.supirgame.ashley.EntityFactoryPacket.Prototypes.PrototypeObject;
 import com.sapphirefx.supirgame.ashley.components.*;
 import com.sapphirefx.supirgame.resources.IResourceRetriever;
+
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,7 +41,7 @@ public abstract class ComponentFactory
         createTintComponent(entity, po);
         createZindexComponent(entity, po);
         //createScriptComponent(entity, po);
-        //createMeshComponent(entity, po);
+        createMeshComponent(entity, po);
         createPhysicsComponents(entity, po);
         createShaderComponent(entity, po);
     }
@@ -84,25 +82,25 @@ public abstract class ComponentFactory
     {
         TransformComponent component = new TransformComponent();
         component.rotation = po.rotation;
-        component.scale.x = po.scaleX;
-        component.scale.y = po.scaleY;
-        component.pos.x = po.x;
-        component.pos.y = po.y;
+        component.scaleX = po.scaleX;
+        component.scaleY = po.scaleY;
+        component.x = po.x;
+        component.y = po.y;
 
-        if (Float.isNaN(po.originX)) component.origin.x = dimensionsComponent.width / 2f;
-        else component.pos.x = po.originX;
+        if (Float.isNaN(po.originX)) component.originX = dimensionsComponent.width / 2f;
+        else component.originX = po.originX;
 
-        if (Float.isNaN(po.originY)) component.origin.y = dimensionsComponent.height / 2f;
-        else component.pos.y = po.originY;
+        if (Float.isNaN(po.originY)) component.originY = dimensionsComponent.height / 2f;
+        else component.originY = po.originY;
 
         entity.add(component);
 
         return component;
     }
 
-    protected TintComponent createTintComponent(Entity entity, PrototypeObject vo)
+    protected ColorComponent createTintComponent(Entity entity, PrototypeObject vo)
     {
-        TintComponent component = new TintComponent();
+        ColorComponent component = new ColorComponent();
         component.color.set(vo.tint[0], vo.tint[1], vo.tint[2], vo.tint[3]);
 
         entity.add(component);
@@ -132,7 +130,7 @@ public abstract class ComponentFactory
 
     protected void createPhysicsComponents(Entity entity, PrototypeObject po)
     {
-        if(po.prototypePhysics == null)
+        if(po.physics == null)
         {
             return;
         }
@@ -141,12 +139,19 @@ public abstract class ComponentFactory
 
     protected PhysicBodyComponent createPhysicsBodyPropertiesComponent(Entity entity, PrototypeObject po)
     {
-        BodyDef bodyDef = new BodyDef();
-        FixtureDef fixtureDef = new FixtureDef();
-
-        Body body = world.createBody(bodyDef);
-        body.createFixture(fixtureDef);
-        PhysicBodyComponent component = new PhysicBodyComponent(body);
+        PhysicBodyComponent component = new PhysicBodyComponent();
+        component.allowSleep = po.physics.allowSleep;
+        component.awake = po.physics.awake;
+        component.bodyType = po.physics.bodyType;
+        component.bullet = po.physics.bullet;
+        component.centerOfMass = po.physics.centerOfMass;
+        component.damping = po.physics.damping;
+        component.density = po.physics.density;
+        component.friction = po.physics.friction;
+        component.gravityScale = po.physics.gravityScale;
+        component.mass = po.physics.mass;
+        component.restitution = po.physics.restitution;
+        component.rotationalInertia = po.physics.rotationalInertia;
 
         entity.add(component);
 
@@ -169,4 +174,16 @@ public abstract class ComponentFactory
         return component;
     }
 
+    protected PolygonComponent createMeshComponent(Entity entity, PrototypeObject vo)
+    {
+        PolygonComponent component = new PolygonComponent();
+        if(vo.shape != null)
+        {
+            component.vertices = vo.shape.polygons.clone();
+            entity.add(component);
+
+            return component;
+        }
+        return null;
+    }
 }

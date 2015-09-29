@@ -18,7 +18,7 @@ import com.sapphirefx.supirgame.ashley.components.ParticleComponent;
 import com.sapphirefx.supirgame.ashley.components.PhysicBodyComponent;
 import com.sapphirefx.supirgame.ashley.components.PolygonComponent;
 import com.sapphirefx.supirgame.ashley.components.ShaderComponent;
-import com.sapphirefx.supirgame.ashley.components.TintComponent;
+import com.sapphirefx.supirgame.ashley.components.ColorComponent;
 import com.sapphirefx.supirgame.ashley.components.TransformComponent;
 import com.sapphirefx.supirgame.ashley.components.ViewPortComponent;
 import com.sapphirefx.supirgame.ashley.components.ZIndexComponent;
@@ -83,7 +83,7 @@ public class ComponentRetriever
         mappers.put(ParentNodeComponent.class, ComponentMapper.getFor(ParentNodeComponent.class));
         mappers.put(ScissorComponent.class, ComponentMapper.getFor(ScissorComponent.class));
         mappers.put(TextureRegionComponent.class, ComponentMapper.getFor(TextureRegionComponent.class));
-        mappers.put(TintComponent.class, ComponentMapper.getFor(TintComponent.class));
+        mappers.put(ColorComponent.class, ComponentMapper.getFor(ColorComponent.class));
         mappers.put(TransformComponent.class, ComponentMapper.getFor(TransformComponent.class));
         mappers.put(ViewPortComponent.class, ComponentMapper.getFor(ViewPortComponent.class));
         mappers.put(ZIndexComponent.class, ComponentMapper.getFor(ZIndexComponent.class));

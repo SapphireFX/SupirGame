@@ -8,7 +8,6 @@ import com.sapphirefx.supirgame.ashley.EntityFactoryPacket.Prototypes.PrototypeO
 import com.sapphirefx.supirgame.ashley.components.DimensionsComponent;
 import com.sapphirefx.supirgame.ashley.components.LabelComponent;
 import com.sapphirefx.supirgame.resources.IResourceRetriever;
-import com.sapphirefx.supirgame.resources.ResourceManager;
 import com.sapphirefx.supirgame.tools.ProjectInfo;
 
 import box2dLight.RayHandler;

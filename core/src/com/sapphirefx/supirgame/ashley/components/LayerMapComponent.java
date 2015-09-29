@@ -12,6 +12,8 @@ import java.util.HashMap;
  */
 public class LayerMapComponent implements Component
 {
+    public boolean autoIndexing = true;
+
     private ArrayList<ProtorypeLayerObject> layers = new ArrayList<ProtorypeLayerObject>();
 
     private HashMap<String, ProtorypeLayerObject> layerMap = new HashMap<String, ProtorypeLayerObject>();
